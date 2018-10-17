@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		4E3D55A8F57D2D14AB2EF2EF /* Pods_Kagi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 411F8205574C6A782020EDCD /* Pods_Kagi.framework */; };
+		A31D62202177C4EC001FA31F /* KeyEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31D621F2177C4EC001FA31F /* KeyEditViewController.swift */; };
+		A31D62242177D7C2001FA31F /* KeychainItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31D62232177D7C2001FA31F /* KeychainItemView.swift */; };
 		A38F10872102B18000A36D35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F10862102B18000A36D35 /* AppDelegate.swift */; };
 		A38F108C2102B18000A36D35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A38F108A2102B18000A36D35 /* Main.storyboard */; };
 		A38F108E2102B18000A36D35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A38F108D2102B18000A36D35 /* Assets.xcassets */; };
 		A38F10912102B18000A36D35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A38F108F2102B18000A36D35 /* LaunchScreen.storyboard */; };
 		A38F10992102B33B00A36D35 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38F10982102B33B00A36D35 /* MainViewController.swift */; };
+		A3AD2DA12177FD2E00AE6CC3 /* KagiStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AD2DA02177FD2E00AE6CC3 /* KagiStore.swift */; };
 		A3C7A34921754E9D005A1459 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C7A34021754E9D005A1459 /* CoreData.framework */; };
 		A3C7A34C21754F1F005A1459 /* KagiModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3C7A34A21754F1F005A1459 /* KagiModel.xcdatamodeld */; };
 		A3F3948021050686009B01FA /* BasicChartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3947F21050686009B01FA /* BasicChartView.xib */; };
@@ -75,6 +78,8 @@
 		411F8205574C6A782020EDCD /* Pods_Kagi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kagi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A0BDE8FA99F10F253462E77 /* Pods-Kagi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kagi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kagi/Pods-Kagi.debug.xcconfig"; sourceTree = "<group>"; };
 		A1479BA297AC29DBAE642104 /* Pods-Kagi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kagi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kagi/Pods-Kagi.release.xcconfig"; sourceTree = "<group>"; };
+		A31D621F2177C4EC001FA31F /* KeyEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEditViewController.swift; sourceTree = "<group>"; };
+		A31D62232177D7C2001FA31F /* KeychainItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemView.swift; sourceTree = "<group>"; };
 		A3265CCC2102C5D100925372 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = ../../SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		A38F10832102B18000A36D35 /* Kagi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kagi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A38F10862102B18000A36D35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +88,7 @@
 		A38F10902102B18000A36D35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A38F10922102B18000A36D35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A38F10982102B33B00A36D35 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A3AD2DA02177FD2E00AE6CC3 /* KagiStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KagiStore.swift; sourceTree = "<group>"; };
 		A3C7A34021754E9D005A1459 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A3C7A34B21754F1F005A1459 /* KagiModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KagiModel.xcdatamodel; sourceTree = "<group>"; };
 		A3F3947F21050686009B01FA /* BasicChartView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BasicChartView.xib; sourceTree = "<group>"; };
@@ -181,15 +187,16 @@
 			isa = PBXGroup;
 			children = (
 				A38F10982102B33B00A36D35 /* MainViewController.swift */,
+				A31D621F2177C4EC001FA31F /* KeyEditViewController.swift */,
 			);
-			name = Controllers;
-			path = "New Group";
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A3C7A34D21754F25005A1459 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				A3C7A34A21754F1F005A1459 /* KagiModel.xcdatamodeld */,
+				A3AD2DA02177FD2E00AE6CC3 /* KagiStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -206,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				A3F39482210506F4009B01FA /* BasicChartView.swift */,
+				A31D62232177D7C2001FA31F /* KeychainItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -383,8 +391,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A38F10872102B18000A36D35 /* AppDelegate.swift in Sources */,
+				A31D62242177D7C2001FA31F /* KeychainItemView.swift in Sources */,
+				A3AD2DA12177FD2E00AE6CC3 /* KagiStore.swift in Sources */,
 				A3F39483210506F4009B01FA /* BasicChartView.swift in Sources */,
 				A38F10992102B33B00A36D35 /* MainViewController.swift in Sources */,
+				A31D62202177C4EC001FA31F /* KeyEditViewController.swift in Sources */,
 				A3C7A34C21754F1F005A1459 /* KagiModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,6 +537,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4GJVP2VW64;
 				INFOPLIST_FILE = Kagi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Cirrusly.Kagi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -542,6 +554,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4GJVP2VW64;
 				INFOPLIST_FILE = Kagi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Cirrusly.Kagi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
