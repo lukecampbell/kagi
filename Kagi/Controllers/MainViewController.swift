@@ -11,12 +11,9 @@ import CoreData
 import SwiftyJSON
 
 class MainViewController: UITableViewController, KeyEditViewControllerDelegate {
-    enum tags: Int {
-        case cellLabel = 1000
-    }
-    @IBOutlet weak var theButton: UIButton!
     
     var moc: NSManagedObjectContext?
+    var kagiStore: KagiStore?
     
     static let cellReuseId = "KeychainItem"
     
@@ -25,63 +22,34 @@ class MainViewController: UITableViewController, KeyEditViewControllerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let context = moc {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Kagi")
-            do {
-                let count = try context.count(for: fetchRequest)
-                return count
-            } catch {
-                print("Error: \(error)")
-                return 0
-            }
-        } else {
-            return 0
-        }
-    }
-    
-    func readKagi() -> [Kagi] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Kagi")
-        if let context = moc {
-            do {
-                let results = try context.fetch(fetchRequest)
-                for data in results as! [Kagi] {
-                    print(data.name)
-                }
-                return results as! [Kagi]
-            } catch {
-                print("Failed to read data: \(error)")
-                return []
-            }
-        }
-        return []
+        return kagiStore?.items.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "KeychainItem", for: indexPath) as! KeychainItemView
         
-        let items = readKagi()
-        cell.cellLabel.text = items[indexPath.row].name ?? "Unknown"
-        cell.kagi = items[indexPath.row]
+        cell.cellLabel.text = kagiStore?.items[indexPath.row].name ?? "Unknown"
+        cell.kagi = kagiStore?.items[indexPath.row]
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            kagiStore!.deleteKagi(kagiStore!.items[indexPath.row])
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
     
     override func viewDidLoad() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        moc = appDelegate.persistentContainer.viewContext
-        let context = moc!
-        let entity = NSEntityDescription.entity(forEntityName: "Kagi", in: context)
-        let newKey = Kagi(entity: entity!, insertInto: context)
-        newKey.setValue("example", forKey: "name")
-        newKey.setValue("abc123", forKey: "data")
-    }
-    
-    func createKagi() -> Kagi? {
-        if let context = moc {
-            let entity = NSEntityDescription.entity(forEntityName: "Kagi", in: context)
-            let newKey = Kagi(entity: entity!, insertInto: context)
-            return newKey
+        do {
+            kagiStore = try KagiStore(context: appDelegate.persistentContainer.viewContext)
+            if let itemCount = kagiStore?.items.count, itemCount < 1 {
+                _ = kagiStore?.createKagi(name: "First key", data: "Some example data")
+            }
+        } catch {
+            fatalError("Failed to initialize kagi store: \(error)")
         }
-        return nil
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -99,29 +67,41 @@ class MainViewController: UITableViewController, KeyEditViewControllerDelegate {
             controller.kagi = kagi
         }
         controller.delegate = self
+        controller.newKagi = false
     }
     
     func prepareNewSegue(for controller: KeyEditViewController) {
-        if let kagi = createKagi() {
+        if let kagi = kagiStore?.createKagi(name: "New Key", data: "Data") {
             controller.kagi = kagi
         }
         controller.delegate = self
+        controller.newKagi = true
     }
     
     func keyEditViewControllerDidCancel(_ controller: KeyEditViewController) {
         controller.navigationController?.popViewController(animated: true)
         controller.dismiss(animated: true)
-        print("Dimissed")
+    }
+    
+    func updateTableView(with kagi: Kagi) {
+        if let index = kagiStore?.items.index(of: kagi) {
+            if index >= tableView.numberOfRows(inSection: 0) {
+                tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            } else {
+                let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? KeychainItemView
+                cell?.cellLabel.text = kagi.name ?? "Unknown"
+            }
+        }
     }
     
     func keyEditViewControllerDidSave(_ controller: KeyEditViewController, kagi: Kagi) {
         controller.navigationController?.popViewController(animated: true)
         controller.dismiss(animated: true)
-        let items = readKagi()
-        if let index = items.index(of: kagi) {
-            let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? KeychainItemView
-            cell?.cellLabel.text = kagi.name ?? "Unknown"
-        }
+        updateTableView(with: kagi)
+    }
+    
+    func keyEditViewControllerDidPressBack(_ controller: KeyEditViewController, kagi: Kagi) {
+        updateTableView(with: kagi)
     }
     
 }

@@ -23,4 +23,6 @@ along with this program.  If not, see [https://www.gnu.org/licenses/](https://ww
 Developer References
 --------------------
 
-https://medium.com/@brianclouser/swift-3-creating-a-custom-view-from-a-xib-ecdfe5b3a960
+- https://medium.com/@brianclouser/swift-3-creating-a-custom-view-from-a-xib-ecdfe5b3a960
+
+- https://medium.com/@KaushElsewhere/how-to-dismiss-keyboard-in-a-view-controller-of-ios-3b1bfe973ad1
