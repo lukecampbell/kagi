@@ -26,3 +26,5 @@ Developer References
 - https://medium.com/@brianclouser/swift-3-creating-a-custom-view-from-a-xib-ecdfe5b3a960
 
 - https://medium.com/@KaushElsewhere/how-to-dismiss-keyboard-in-a-view-controller-of-ios-3b1bfe973ad1
+
+- https://medium.com/xcblog/core-data-with-swift-4-for-beginners-1fc067cca707

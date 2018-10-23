@@ -55,8 +55,9 @@ class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewD
         // the user to dismiss the keyboard
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let generateBtn = UIBarButtonItem(title: "Generate", style: .plain, target: self, action: #selector(KeyEditViewController.generateButtonAction))
         let doneBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(KeyEditViewController.doneButtonAction))
-        toolbar.setItems([flexSpace, doneBtn], animated: false)
+        toolbar.setItems([flexSpace, generateBtn, doneBtn], animated: false)
         toolbar.sizeToFit()
         self.dataField.inputAccessoryView = toolbar
         
@@ -121,6 +122,12 @@ class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewD
         self.view.endEditing(true)
     }
 
+    @objc
+    func generateButtonAction() {
+        dataField.text = "Generated passphrase goes here"
+        self.view.endEditing(true)
+        self.performSegue(withIdentifier: "showGenKey", sender: self)
+    }
     /**
      Assigns the data from the view fields to the Kagi and passes the object to
      the delegate
