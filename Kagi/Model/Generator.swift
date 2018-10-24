@@ -31,8 +31,8 @@ public class Generator {
         set {
             if newValue >= 32 {
                 _passphraseLength = 32
-            } else if newValue <= 0 {
-                _passphraseLength = 1
+            } else if newValue <= 4 {
+                _passphraseLength = 4
             } else {
                 _passphraseLength = newValue
             }
@@ -42,6 +42,12 @@ public class Generator {
     public init() {
         _wordsPath = Bundle.main.url(forResource: "words", withExtension: nil)!
         _indexFilePath = Bundle.main.url(forResource: "indexes", withExtension: "dat")!
+    }
+    
+    public convenience init(withPassPhraseLength: Int8, isMemorable: Bool) {
+        self.init()
+        passphraseLength = withPassPhraseLength
+        memorable = isMemorable
     }
     
     public func getIndexFileSize() -> UInt64 {
