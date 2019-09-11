@@ -8,17 +8,11 @@
 
 import UIKit
 
+protocol PassphraseGeneratedDelegate: class {
+    func onPassphraseGenerated(passphrase: String) -> Void
+}
+
 class GenKeyViewController : UIViewController {
-    override func viewDidLoad() {
-        print("GenKeyViewController loaded")
-        
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "embedGeneratorOptions" {
-            print("Segue!")
-        }
-    }
+    weak var generateDelegate: PassphraseGeneratedDelegate?
 
 }

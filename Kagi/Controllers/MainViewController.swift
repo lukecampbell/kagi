@@ -33,7 +33,7 @@ class MainViewController: UITableViewController, KeyEditViewControllerDelegate {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             kagiStore!.deleteKagi(kagiStore!.items[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -84,7 +84,7 @@ class MainViewController: UITableViewController, KeyEditViewControllerDelegate {
     }
     
     func updateTableView(with kagi: Kagi) {
-        if let index = kagiStore?.items.index(of: kagi) {
+        if let index = kagiStore?.items.firstIndex(of: kagi) {
             if index >= tableView.numberOfRows(inSection: 0) {
                 tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
             } else {

@@ -21,15 +21,15 @@ public class Generator {
     let NUMBERS = "0123456789"
     let SMALLSPECIALS = "!@#$%_-"
     let FULLSPECIALS = "~^&*()_+`-=[]\\{}|;':\",./<>?"
-    private var _passphraseLength: Int8 = 32
+    private var _passphraseLength: UInt32 = 32
     private let _wordsPath: URL
     private let _indexFilePath: URL
     private var _indexFileSize: UInt64?
     var memorable: Bool = false
-    var passphraseLength: Int8 {
+    var passphraseLength: UInt32 {
         get { return _passphraseLength }
         set {
-            if newValue >= 32 {
+            if newValue >= 256 {
                 _passphraseLength = 32
             } else if newValue <= 4 {
                 _passphraseLength = 4
@@ -44,12 +44,26 @@ public class Generator {
         _indexFilePath = Bundle.main.url(forResource: "indexes", withExtension: "dat")!
     }
     
-    public convenience init(withPassPhraseLength: Int8, isMemorable: Bool) {
+    public convenience init(withPassPhraseLength: UInt32, isMemorable: Bool) {
         self.init()
         passphraseLength = withPassPhraseLength
         memorable = isMemorable
     }
     
+    public func generatePassphrase() -> String {
+        var chars = [Character]()
+        let characterPool = getCharacterSets(for: [.Alpha, .Numeric, .CommonSpecials, .FullSpecials])
+        for _ in 0..<passphraseLength {
+            if let choice = characterPool.randomElement() {
+                chars.append(choice)
+            }
+        }
+        return String(chars)
+    }
+    
+    /**
+     Returns the size in bytes of the index file
+    */
     public func getIndexFileSize() -> UInt64 {
         if _indexFileSize != nil {
             return _indexFileSize!
@@ -62,16 +76,21 @@ public class Generator {
             fatalError("Failed to calculate size of index file \(error)")
         }
     }
-    
+    /*
+     Returns an array of indexes that are read from the index file starting at fromOffset and contains count indexes
+    */
     public func readIndexes(fromOffset: UInt64, count: UInt8) -> [UInt32] {
         do {
             let fileHandle = try FileHandle(forReadingFrom: _indexFilePath)
             fileHandle.seek(toFileOffset: fromOffset)
             var values = [UInt32]()
-            for _ in 0..<count {
-                let dataString = fileHandle.readData(ofLength: 4)
-                dataString.withUnsafeBytes { (ptr: UnsafePointer<UInt32>) in
-                    values.append(UInt32(littleEndian: ptr.pointee))
+            let length = 4 * Int(count)
+            let ptr = UnsafeMutablePointer<UInt8>.allocate(capacity: length)
+            let data = fileHandle.readData(ofLength: 4 * length)
+            data.copyBytes(to: ptr, count: length)
+            ptr.withMemoryRebound(to: UInt32.self, capacity: Int(count)) { intPtr in
+                for i in 0..<Int(count) {
+                    values.append(UInt32(littleEndian: intPtr[i]))
                 }
             }
             return values

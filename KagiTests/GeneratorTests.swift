@@ -51,5 +51,12 @@ class KagiTests: XCTestCase {
         XCTAssertEqual("Zyzzogeton", try generator.lookupWord(wordNumber: 235884))
         XCTAssertThrowsError(try generator.lookupWord(wordNumber: 235885))
     }
+    
+    func testGeneratePassphrase() {
+        let generator = self.generator!
+        
+        let passphrase = generator.generatePassphrase()
+        XCTAssertEqual(32, passphrase.count)
+    }
 
 }

@@ -20,10 +20,12 @@ protocol KeyEditViewControllerDelegate: class {
     func keyEditViewControllerDidPressBack(_ controller: KeyEditViewController, kagi: Kagi)
 }
 
-class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewDelegate, PassphraseGeneratedDelegate {
 
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var dataField: UITextView!
+    
+    static let segueShowGenKey = "showGenKey"
     
     weak var delegate: KeyEditViewControllerDelegate?
     
@@ -69,8 +71,8 @@ class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewD
         render()
     }
     
-    override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
         // If parent is nil, then the user pressed the back button
         if parent == nil {
             // Assign the data from the text fields to the Kagi and pass that to the delegate
@@ -78,6 +80,14 @@ class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewD
                 kagi.name = nameField.text
                 kagi.data = dataField.text
                 delegate?.keyEditViewControllerDidPressBack(self, kagi: kagi)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == KeyEditViewController.segueShowGenKey) {
+            if let child = sender as? GenKeyViewController {
+                child.generateDelegate = self
             }
         }
     }
@@ -108,6 +118,10 @@ class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewD
         textField.resignFirstResponder()
         return true
     }
+    
+    func onPassphraseGenerated(passphrase: String) {
+        print("I got a passphrase: " + passphrase)
+    }
 
     //----------------------------------------
     // MARK: Actions
@@ -126,7 +140,7 @@ class KeyEditViewController : UIViewController, UITextFieldDelegate, UITextViewD
     func generateButtonAction() {
         dataField.text = "Generated passphrase goes here"
         self.view.endEditing(true)
-        self.performSegue(withIdentifier: "showGenKey", sender: self)
+        self.performSegue(withIdentifier: KeyEditViewController.segueShowGenKey, sender: self)
     }
     /**
      Assigns the data from the view fields to the Kagi and passes the object to

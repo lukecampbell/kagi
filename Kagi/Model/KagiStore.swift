@@ -41,7 +41,7 @@ class KagiStore {
     }
     
     func deleteKagi(_ kagi: Kagi) {
-        let index = items.index(of: kagi)!
+        let index = items.firstIndex(of: kagi)!
         items.remove(at: index)
         moc.delete(kagi)
     }
